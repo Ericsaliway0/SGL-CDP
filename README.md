@@ -2,7 +2,7 @@
 
 This repository contains the code for our project,  
 **"SGL-CDP: Spectral Graph Learning for Cancer Driver Prioritization,"**.
-
+  
 
 ![Alt text](images/__overview_framework.jpeg)
 
@@ -38,9 +38,32 @@ These databases provide curated and integrated protein-protein interaction (PPI)
 5. Install DGL:
    - `conda install -c dglteam dgl`
 
-6. Download the data from the built gene association graph using the link below and place it in the `data/multiomics_meth/` directory before training:
+
+6. For pretraining, a built gene network of BRCA can be downloaded and placed in `data/processed/omics_per_cancer` directory before pretraining:
+   - [Download Gene Association Data](https://drive.google.com/file/d/1e9QixpFot9t1mDSXIcNF6Zv6aY0IE_mA/view?usp=sharing)
+   
+
+7. Download the data from the built gene association graph using the link below and place it in the `data/multiomics_meth/` directory before training:
    - [Download Gene Association Data](https://drive.google.com/file/d/1l7mbTn2Nxsbc7LLLJzsT8y02scD23aWo/view?usp=sharing)
 
-7. To train the model, run the following command:
+8. To train the model, run the following command:
    - `python main.py --model_type ACGNN --net_type CPDB --score_threshold 0.99 --learning_rate 0.001 --num_epochs 200`
 
+
+<h2>Citation</h2>
+
+<p>
+If you find this project useful for your research, please cite it using the following BibTeX entry:
+</p>
+
+<pre><code>
+@misc{LiMaSSRN2026Chebyshev,
+  author       = {Li, Sa and Ma, Tianle},
+  title        = {Learning Interpretable Gene Representations with Adaptive Chebyshev Graph Neural Networks},
+  year         = {2026},
+  publisher    = {SSRN},
+  doi          = {10.2139/ssrn.6382922},
+  url          = {https://ssrn.com/abstract=6382922},
+  note         = {Available at SSRN}
+}
+</code></pre>
