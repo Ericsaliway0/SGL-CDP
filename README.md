@@ -39,14 +39,12 @@ These databases provide curated and integrated protein-protein interaction (PPI)
    - `conda install -c dglteam dgl`
 
 
-6. For pretraining, please download the built gene network of BRCA, and placed it in `data/processed/omics_per_cancer` directory:
+6. For pretraining, please download the built gene network of BRCA, and place it in `data/processed/omics_per_cancer` directory, and run the following command:
    - [Download Gene Network](https://drive.google.com/file/d/1e9QixpFot9t1mDSXIcNF6Zv6aY0IE_mA/view?usp=sharing)
-   
+   - `python gnn_embedding/gat_embedding.py --model_type GAT --out_feats 32 --num_layers 2 --num_heads 1 --batch_size 1 --lr 0.0001 --num_epochs 200`
 
-7. Download the data from the built gene association graph using the link below and place it in the `data/multiomics_meth/` directory before training:
+8. For prediction, please download the data from the built gene association graph using the link below, place it in the `data/multiomics_meth/` directory, and run the following command:
    - [Download Gene Association Data](https://drive.google.com/file/d/1l7mbTn2Nxsbc7LLLJzsT8y02scD23aWo/view?usp=sharing)
-
-8. To train the model, run the following command:
    - `python main.py --model_type ACGNN --net_type CPDB --score_threshold 0.99 --learning_rate 0.001 --num_epochs 200`
 
 
