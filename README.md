@@ -39,7 +39,7 @@ These databases provide curated and integrated protein-protein interaction (PPI)
    - `conda install -c dglteam dgl`
 
 
-6. For pretraining, the built gene network of BRCA can be downloaded and placed in `data/processed/omics_per_cancer` directory before pretraining:
+6. For pretraining, please download below the built gene network of BRCA first, and placed it in `data/processed/omics_per_cancer` directory:
    - [Gene Network](https://drive.google.com/file/d/1e9QixpFot9t1mDSXIcNF6Zv6aY0IE_mA/view?usp=sharing)
    
 
