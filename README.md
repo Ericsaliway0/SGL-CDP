@@ -115,7 +115,7 @@ data/processed/omics_per_cancer/
 
 ### Download Gene Network
 
-[Download Gene Network](https://drive.google.com/file/d/1e9QixpFot9t1mDSXIcNF6Zv6aY0IE_mA/view?usp=sharing)
+[Download Gene Network](https://drive.google.com/file/d/1L49jx0wrQ5Xu-ryICWkgGJ1TJgwTD_dU/view?usp=sharing)
 
 After downloading and placing the network in the specified directory, run:
 
