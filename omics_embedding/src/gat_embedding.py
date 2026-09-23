@@ -1,0 +1,89 @@
+import os
+import pickle
+import torch
+import dgl
+import utils
+import model
+import argparse
+
+def main():
+    parser = argparse.ArgumentParser(description='Create embeddings and save to disk.')
+    parser.add_argument('--data_dir', type=str, default='data', help='Directory to save the data.')
+    ##parser.add_argument('--output-file', type=str, default='data/emb/embeddings.pkl', help='File to save the embeddings')
+    parser.add_argument('--p_value', type=float, default=0.05, help='P-value threshold for creating embeddings.')
+    parser.add_argument('--save', type=bool, default=True, help='Flag to save embeddings.')
+    parser.add_argument('--num_epochs', type=int, default=5000, help='Number of epochs for training.')
+    parser.add_argument('--in_feats', type=int, default=20, help='Number of input features.')
+    parser.add_argument('--out_feats', type=int, default=128, help='Number of output features.')
+    parser.add_argument('--num_layers', type=int, default=4, help='Number of layers in the model.')
+    parser.add_argument('--num_heads', type=int, default=1, help='Number of heads for GAT model.')
+    parser.add_argument('--batch_size', type=int, default=1, help='Batch size for training.')
+    parser.add_argument('--lr', type=float, default=5e-4, help='Learning rate.')
+    parser.add_argument('--print-embeddings', action='store_true', help='Print the embeddings dictionary')
+
+    args = parser.parse_args()
+
+    # Main script to create embeddings and save to disk
+    
+    utils.create_embedding_with_genes(
+        ##p_value=args.p_value, 
+        save=args.save, 
+        data_dir=args.data_dir
+    )
+
+    '''utils.create_embedding_with_genes(
+        save=args.save, 
+        data_dir=args.data_dir,
+        omics_types=None, 
+        cancer_types=None
+    )'''
+
+    hyperparameters = {
+        'num_epochs': args.num_epochs,
+        'in_feats': args.in_feats,
+        'out_feats': args.out_feats,
+        'num_layers': args.num_layers,
+        'num_heads': args.num_heads,  # Added num_heads to hyperparameters
+        'batch_size': args.batch_size,
+        'device': 'cuda' if torch.cuda.is_available() else 'cpu',
+        'lr': args.lr,
+    }
+
+    # omics_types = ['cna', 'ge', 'meth', 'mf']
+    omics_types = sorted(['cna', 'ge', 'meth', 'mf'])
+    # cancer_types = ['KIRC', 'BRCA', 'READ', 'PRAD', 'STAD', 'HNSC', 'LUAD', 
+    #                 'THCA', 'BLCA', 'ESCA', 'LIHC', 'UCEC', 'COAD', 'LUSC', 'CESC', 'KIRP']
+    cancer_types = sorted(['KIRC', 'BRCA', 'READ', 'PRAD', 'STAD', 'HNSC', 'LUAD', 
+                    'THCA', 'BLCA', 'ESCA', 'LIHC', 'UCEC', 'COAD', 'LUSC', 'CESC', 'KIRP'])
+
+    for omics in omics_types:
+        for cancer in cancer_types:    
+            ##save_dgl_path = os.path.join(data_dir, 'processed', omics, cancer)
+            
+            embedding_dict = utils.create_embeddings(
+                data_dir=args.data_dir, 
+                load_model=False, 
+                hyperparams=hyperparameters,
+                omics=omics,
+                cancer=cancer
+            )
+    
+            # Print the embeddings dictionary if required
+            '''if args.print_embeddings:
+                print(embedding_dict)
+
+            # Save embeddings to file
+            with open(args.output_file, 'wb') as f:
+                pickle.dump(embedding_dict, f)
+            print(f"Embeddings saved to {args.output_file}")'''
+            
+
+if __name__ == '__main__':
+    main()
+
+# python omics_embedding/gat_embedding.py --out_feats 256 --num_layers 2 --num_heads 2 --batch_size 1 --lr 0.001 --num_epochs 10 
+# (kg39) ericsali@erics-MacBook-Pro-4 gnn_pathways % python __embedding_omics_cpdb_ppi/gat_embedding.py --out_feats 256 --num_layers 2 --num_heads 2 --batch_size 1 --lr 0.001 --num_epochs 10 
+## python __embedding_pathway_gcn_gene/gat_embedding.py --out_feats 256 --num_layers 2 --num_heads 2 --batch_size 1 --lr 0.0001 --num_epochs 100
+## python embedding_pathway_gcn/gat_embedding.py --out_feats 128 --num_layers 2 --num_heads 2 --batch_size 1 --lr 0.0001 --num_epochs 2002
+## python gat/gat_embedding.py --out_feats 128 --num_layers 3 --num_heads 2 --batch_size 1 --lr 0.0001 --num_epochs 2002
+## python embedding/embedding.py --in_feats 256 --out_feats 256 --num_layers 2 --num_heads 2 --batch_size 1 --lr 0.0001 --num_epochs 5
